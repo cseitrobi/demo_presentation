@@ -17,6 +17,7 @@ class _CartScreenState extends State<CartScreen> {
         itemBuilder: (context, index) {
           final product = cart.items[index];
           return ListTile(
+            key: ValueKey("delete_${product.title}"),
             title: Text(product.title),
             subtitle: Text(
                 '${product.brand} - BDT ${product.price.toStringAsFixed(2)}'),
