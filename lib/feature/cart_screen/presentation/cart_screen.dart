@@ -1,3 +1,4 @@
+import 'package:demo_blog/feature/cart_screen/data/manage_cart.dart';
 import 'package:demo_blog/feature/product_screen/presentation/product_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,7 @@ class _CartScreenState extends State<CartScreen> {
           return ListTile(
             title: Text(product.title),
             subtitle: Text(
-                '${product.brand} - \$${product.price.toStringAsFixed(2)}'),
+                '${product.brand} - BDT ${product.price.toStringAsFixed(2)}'),
             trailing: IconButton(
               icon: Icon(Icons.delete),
               onPressed: () {
@@ -39,7 +40,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Total Price: \$${cart.totalPrice.toStringAsFixed(2)}',
+            'Total Price: BDT ${cart.totalPrice.toStringAsFixed(2)}',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
