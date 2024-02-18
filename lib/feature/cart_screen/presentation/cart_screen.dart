@@ -41,7 +41,7 @@ class _CartScreenState extends State<CartScreen> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Total Price: BDT ${cart.totalPrice.toStringAsFixed(2)}',
+            'Total Price: ${cart.totalPrice.toStringAsFixed(2)} Taka',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
