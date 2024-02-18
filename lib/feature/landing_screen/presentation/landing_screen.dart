@@ -1,5 +1,5 @@
 import 'package:demo_blog/feature/cart_screen/presentation/cart_screen.dart';
-import 'package:demo_blog/feature/dashboard_screen/presentation/dashboard.dart';
+import 'package:demo_blog/feature/dashboard_screen/presentation/dashboard_screen.dart';
 import 'package:demo_blog/feature/product_screen/presentation/product_screen.dart';
 import 'package:demo_blog/feature/profile_screen/presentation/profile_screen.dart';
 import 'package:flutter/material.dart';
