@@ -1,3 +1,4 @@
+import 'package:demo_blog/feature/landing_page/presentation/landing_page.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_blog/feature/dashboard/presentation/dashboard.dart';
 
@@ -26,6 +27,7 @@ class _LoginState extends State<Login> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextField(
+                  key: ValueKey("emailField"),
                   controller: emailController,
                   onChanged: (value) {
                     setState(() {
@@ -43,7 +45,7 @@ class _LoginState extends State<Login> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 1,
                         color: isEmailValid ? Colors.green : Colors.red,
                       ),
                     ),
@@ -51,6 +53,7 @@ class _LoginState extends State<Login> {
                 ),
                 SizedBox(height: 20),
                 TextField(
+                  key: ValueKey("passwordField"),
                   controller: passwordController,
                   onChanged: (value) {
                     setState(() {
@@ -70,21 +73,32 @@ class _LoginState extends State<Login> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        width: 3,
+                        width: 1,
                         color: isEmailValid ? Colors.green : Colors.red,
                       ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: isButtonEnabled ? () => _login() : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        isButtonEnabled ? Colors.blue : Colors.grey,
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    key: ValueKey("loginButton"),
+                    onPressed: isButtonEnabled ? () => _login() : null,
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(20),
+                      backgroundColor:
+                          isButtonEnabled ? Colors.blue : Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      "Login",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    ),
                   ),
-                  child: Text("Login"),
-                ),
+                )
               ],
             ),
           ),
@@ -120,7 +134,7 @@ class _LoginState extends State<Login> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Dashboard(),
+          builder: (context) => LandingPage(),
         ),
       );
     }
