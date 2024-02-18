@@ -1,6 +1,6 @@
-import 'package:demo_blog/feature/landing_page/presentation/landing_page.dart';
+import 'package:demo_blog/feature/landing_screen/presentation/landing_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:demo_blog/feature/dashboard/presentation/dashboard.dart';
+import 'package:demo_blog/feature/dashboard_screen/presentation/dashboard_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
     // Check if email and password match the specific credentials.
     if (emailController.text == "xyz@gmail.com" &&
         passwordController.text == "12345678") {
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => LandingPage(),
