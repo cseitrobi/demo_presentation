@@ -1,5 +1,5 @@
-import 'package:demo_blog/feature/landing_screen/presentation/landing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:demo_blog/feature/landing_screen/presentation/landing_screen.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -9,16 +9,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  // Controllers for text fields
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  // Flags for form validation and button state
   bool isButtonEnabled = false;
-  bool isEmailValid = false;
-  bool isPasswordValid = false;
 
   @override
   Widget build(BuildContext context) {
-    // The Scaffold's body is now wrapped in a SingleChildScrollView
-    // to ensure the form is accessible on smaller devices or when the keyboard is visible.
+    // Using SingleChildScrollView to avoid overflow when keyboard is visible
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -27,80 +26,11 @@ class _LoginState extends State<Login> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextField(
-                key: ValueKey("emailField"), // Finder: byValueKey('emailField')
-                controller: emailController,
-                onChanged: (value) {
-                  setState(() {
-                    isEmailValid = isValidEmail(emailController.text);
-                    isButtonEnabled = isEmailValid && isPasswordValid;
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  hintText: "Enter your email",
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: isEmailValid ? Colors.green : Colors.red,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              TextField(
-                key: ValueKey(
-                    "passwordField"), // Finder: byValueKey('passwordField')
-                controller: passwordController,
-                onChanged: (value) {
-                  setState(() {
-                    isPasswordValid = isValidPassword(passwordController.text);
-                    isButtonEnabled = isEmailValid && isPasswordValid;
-                  });
-                },
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  hintText: "Enter your password",
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      width: 1,
-                      color: isEmailValid ? Colors.green : Colors.red,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-              Container(
-                width: double.infinity,
-                child: ElevatedButton(
-                  key: ValueKey(
-                      "loginButton"), // Finder: byValueKey('loginButton')
-                  onPressed: isButtonEnabled ? () => _login() : null,
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
-                    backgroundColor:
-                        isButtonEnabled ? Colors.blue : Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    "Login",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ),
-              )
+              _buildEmailField(),
+              const SizedBox(height: 20),
+              _buildPasswordField(),
+              const SizedBox(height: 20),
+              _buildLoginButton(),
             ],
           ),
         ),
@@ -108,37 +38,100 @@ class _LoginState extends State<Login> {
     );
   }
 
-  bool isValidEmail(String email) {
-    // Null or empty check
-    if (email.isEmpty) return false;
-
-    // Regular expression for email validation
-    final emailRegex = RegExp(
-      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-      caseSensitive: false,
-      multiLine: false,
+  // Email field with validation
+  Widget _buildEmailField() {
+    return TextField(
+      key: const ValueKey("emailField"), // Finder: byValueKey('emailField')
+      controller: emailController,
+      onChanged: (value) => _validateForm(),
+      decoration: InputDecoration(
+        labelText: "Email",
+        hintText: "Enter your email",
+        border: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color:
+                _isValidEmail(emailController.text) ? Colors.green : Colors.red,
+          ),
+        ),
+      ),
     );
+  }
 
-    // Check if the email matches the regular expression
+  // Password field with validation
+  Widget _buildPasswordField() {
+    return TextField(
+      key: const ValueKey(
+          "passwordField"), // Finder: byValueKey('passwordField')
+      controller: passwordController,
+      onChanged: (value) => _validateForm(),
+      obscureText: true,
+      decoration: InputDecoration(
+        labelText: "Password",
+        hintText: "Enter your password",
+        border: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1,
+            color: _isValidPassword(passwordController.text)
+                ? Colors.green
+                : Colors.red,
+          ),
+        ),
+      ),
+    );
+  }
+
+  // Login button that is enabled/disabled based on form validation
+  Widget _buildLoginButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        key: const ValueKey("loginButton"), // Finder: byValueKey('loginButton')
+        onPressed: isButtonEnabled ? _login : null,
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(10),
+          backgroundColor: isButtonEnabled ? Colors.blue : Colors.grey,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: const Text(
+          "Login",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  // Form validation logic
+  void _validateForm() {
+    final isEmailValid = _isValidEmail(emailController.text);
+    final isPasswordValid = _isValidPassword(passwordController.text);
+    setState(() {
+      isButtonEnabled = isEmailValid && isPasswordValid;
+    });
+  }
+
+  // Email validation using regular expression
+  bool _isValidEmail(String email) {
+    if (email.isEmpty) return false;
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     return emailRegex.hasMatch(email);
   }
 
-  bool isValidPassword(String password) {
-    // You can implement your password validation logic here.
+  // Simple password validation
+  bool _isValidPassword(String password) {
     return password.isNotEmpty && password.length >= 8;
   }
 
+  // Mock login function for demonstration
   void _login() {
-    // Check if email and password match the specific credentials.
-    //Moc login for demo purpose
     if (emailController.text == "xyz@gmail.com" &&
         passwordController.text == "12345678") {
       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => LandingPage(),
-        ),
-      );
+          context, MaterialPageRoute(builder: (context) => LandingPage()));
     }
   }
 }
