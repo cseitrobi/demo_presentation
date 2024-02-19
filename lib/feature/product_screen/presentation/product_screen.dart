@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo_blog/feature/cart_screen/data/manage_cart.dart';
 import 'package:demo_blog/feature/product_screen/data/ProductGenerator.dart';
 import 'package:demo_blog/feature/product_screen/data/product.dart';
+import 'package:demo_blog/feature/product_screen/presentation/product_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
@@ -27,6 +28,12 @@ class ProductScreen extends StatelessWidget {
             child: InkWell(
               onTap: () {
                 // Navigator.push to product details page if necessary
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProductDetailsPage(product: product),
+                  ),
+                );
               },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
