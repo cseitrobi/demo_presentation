@@ -1,15 +1,15 @@
 import 'package:demo_blog/feature/product_screen/data/product.dart';
 
 class Cart {
-  final List<Product> items;
+  final Map<Product, int> items;
 
   Cart({required this.items});
 
   double get totalPrice {
     double total = 0;
-    for (var item in items) {
-      total += item.price;
-    }
+    items.forEach((product, quantity) {
+      total += product.price * quantity;
+    });
     return total;
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:demo_blog/feature/cart_screen/data/manage_cart.dart';
 import 'package:flutter/material.dart';
 
@@ -9,39 +10,76 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    final cart = CartManager.cart;
+    final cartItems = CartManager.cart.items;
     return Scaffold(
       body: ListView.builder(
-        itemCount: cart.items.length,
+        itemCount: cartItems.length,
         itemBuilder: (context, index) {
-          final product = cart.items[index];
-          return ListTile(
-            key: ValueKey("delete_${product.title}"),
-            title: Text(product.title),
-            subtitle: Text(
-                '${product.brand} - BDT ${product.price.toStringAsFixed(2)}'),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  CartManager.removeFromCart(product);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Item removed from cart'),
+          final product = cartItems.keys.elementAt(index);
+          final quantity = cartItems[product]!;
+          return Card(
+            margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            child: ListTile(
+              leading: product.imageUrl != null
+                  ? CircleAvatar(
+                      backgroundImage:
+                          CachedNetworkImageProvider(product.imageUrl!),
+                    )
+                  : CircleAvatar(
+                      child: Icon(Icons.image), // Default icon
+                      backgroundColor: Colors
+                          .grey[200], // Optional: Background color for the icon
                     ),
-                  );
-                });
-              },
+              title: Text(product.title),
+              subtitle: Text(
+                  '${product.brand} - BDT ${product.price.toStringAsFixed(2)}'),
+              trailing: FittedBox(
+                fit: BoxFit.fill,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                        setState(() {
+                          CartManager.removeFromCart(product);
+                        });
+                      },
+                    ),
+                    Text('$quantity'),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          CartManager.addToCart(product);
+                        });
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete_outline),
+                      onPressed: () {
+                        setState(() {
+                          CartManager.removeProductCompletely(product);
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
           );
         },
       ),
       bottomNavigationBar: BottomAppBar(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'Total Price: ${cart.totalPrice.toStringAsFixed(2)} Taka',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Total Price: ${CartManager.cart.totalPrice.toStringAsFixed(2)} Taka',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
         ),
       ),
