@@ -14,7 +14,7 @@ class ProfileScreen extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               backgroundImage: CachedNetworkImageProvider(
-                'https://placehold.co/',
+                'https://avatars.githubusercontent.com/u/110809945?s=200&v=4',
               ),
             ),
             SizedBox(height: 20),
