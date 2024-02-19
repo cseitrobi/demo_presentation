@@ -38,22 +38,22 @@ class _LandingPageState extends State<LandingPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
-            tooltip: 'Dashboard', // Tooltip for testing
+            tooltip: 'Dashboard', // finder: byTooltip('Dashboard')
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shop),
             label: 'Product',
-            tooltip: 'Product', // Tooltip for testing
+            tooltip: 'Product', // finder: byTooltip('Product')
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
             label: 'Cart',
-            tooltip: 'Cart', // Tooltip for testing
+            tooltip: 'Cart', // finder: byTooltip('Cart')
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
-            tooltip: 'Profile', // Tooltip for testing
+            tooltip: 'Profile', // finder: byTooltip('Profile')
           ),
         ],
         currentIndex: _selectedIndex,

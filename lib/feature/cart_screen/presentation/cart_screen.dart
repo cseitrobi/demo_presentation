@@ -1,5 +1,4 @@
 import 'package:demo_blog/feature/cart_screen/data/manage_cart.dart';
-import 'package:demo_blog/feature/product_screen/presentation/product_screen.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
