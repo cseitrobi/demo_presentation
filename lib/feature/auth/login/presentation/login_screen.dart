@@ -126,12 +126,31 @@ class _LoginState extends State<Login> {
     return password.isNotEmpty && password.length >= 8;
   }
 
-  // Mock login function for demonstration
+// Mock login function for demonstration
   void _login() {
+    // Check if email and password match the expected credentials
     if (emailController.text == "xyz@gmail.com" &&
         passwordController.text == "12345678") {
+      // Navigate to the LandingPage if the credentials match
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LandingPage()));
+        context,
+        MaterialPageRoute(builder: (context) => LandingPage()),
+      );
+    } else {
+      // Show a SnackBar if the email and password do not match
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Email or Password is incorrect'),
+          duration: Duration(seconds: 1),
+          action: SnackBarAction(
+            label: 'Dismiss',
+            onPressed: () {
+              // This will dismiss the SnackBar before its duration expires
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            },
+          ),
+        ),
+      );
     }
   }
 }
